@@ -1,0 +1,26 @@
+.mrt-15{
+    margin-top: 15px !important;
+}
+
+form{
+    .bx--select, .bx--select-input__wrapper, select{
+        width: 100% !important;
+        background: #f4f4f4;
+    }
+    select{
+        height: 64px !important;
+    }
+}
+
+a{
+    color: #0662fe;
+    text-decoration: none;
+}
+
+.btn-fluid{
+    min-width: 100%;
+}
+
+.align-right{
+    text-align: right;
+}

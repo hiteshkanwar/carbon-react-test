@@ -1,0 +1,94 @@
+.mainframe-screen{
+    .app-header{
+        background-color: #0e0e0e;
+        height: 48px;
+        padding: 0 10px;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        button{
+            position: relative;
+            .user-icon{
+                width: 32px;
+                position: absolute;
+                top: 6px;
+                left: 0;
+                right: 0;
+                margin: 0 auto;
+            }
+            .bx--overflow-menu{
+                height: 48px;
+                width: 100%;
+                opacity: 0;
+            }
+        }
+    }
+    nav{
+        &.app-sidebar{
+            background-color: #0e0e0e;
+            height: calc(100vh - 26px);
+            padding: 5px;
+            position: fixed;
+            width: 50px;
+            top: 48px;
+            border-top: 1px solid #565656;
+            overflow: initial;
+            ul{
+                overflow: initial;
+                li{
+                    overflow: initial;
+                    a{
+                        &[aria-current='page']{
+                            background-color: #ffffff59;
+                        }
+                        &:hover{
+                            background-color: #ffffff59 !important;
+                        }
+                        span{
+                            color: #fff !important;
+                        }
+                        svg{
+                            fill: #fff;
+                        }
+                    }
+                    .nav-sub-options{
+                        display: none;
+                     }
+                    // &:hover{
+                    //     a .nav-sub-options{
+                    //         position: absolute;
+                    //         display: block !important;
+                    //         left: 45px;
+                    //         background: #fff;
+                    //         height: calc(100vh - 48px);
+                    //         top: -22px;
+                    //         width: 250px;
+                    //         li{
+                    //             a{
+                    //                 span{
+                    //                     color: #333 !important;
+                    //                 }
+                    //             }
+                    //         }
+                    //     }
+                    // }
+                }
+            }
+        }
+    }
+}
+
+.bx--overflow-menu-options{
+    left: auto !important;
+    right: 0 !important;
+}
+
+.app-body{
+    background-color: #f4f4f4;
+    background-color: #f4f4f4;
+    width: calc(100% - 50px);
+    float: right;
+    margin-top: 50px;
+    padding: 20px;
+    min-height: calc(100vh - 50px);
+}

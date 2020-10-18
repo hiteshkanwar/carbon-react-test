@@ -1,0 +1,125 @@
+.login-wrapper{
+    padding: 0;
+    width: 100%;
+    .bx--row{
+        margin: 0;
+        .sidebar-header{
+            position: fixed;
+            left: 0;
+            max-width: 25%;
+            background-color: #0e0e0e;
+            height: 100vh;
+            .title{
+                color: #fff;
+                margin-top: 25px;
+            }
+            .carousel{
+                width: calc(100% - 2rem);
+                position: absolute;
+                bottom: 0;            
+                &.carousel-slider{
+                    min-height: 130px;
+                }
+                .thumbs-wrapper, .control-arrow, .carousel-status{
+                    display: none;
+                }
+                .slider-wrapper{
+                    overflow: initial;
+                }
+                .slide{
+                    background-color: transparent;
+                    img{
+                        display: none;
+                    }
+                    h3{
+                        text-align: left;
+                        color: #fff;
+                        font-size: 20px;
+                        margin-bottom: 5px;
+                    }
+                    .legend{
+                        top: 0;
+                        opacity: 1;
+                        position: relative;
+                        text-align: left;
+                        background-color: transparent;
+                        left: 0;
+                        width: 100%;
+                        margin: 0;
+                        padding: 0;
+                        font-weight: normal;
+                        font-size: 14px;
+                    }
+                }
+                .control-dots{
+                    width: auto;
+                    .dot{
+                        margin: 0 4px;
+                    }
+                }
+            }
+        }
+    }
+    .bx--col-md-9{
+        max-width: calc(100% - 25%);
+        margin-left: 25%;
+        .form-wrapper{
+            padding: 80px;
+            min-height: calc(100vh - 40px);
+            &.login{
+                padding: 80px 0;
+                width: 500px;
+                margin: 0 auto;
+            }
+            .page-title{
+                margin-top: 40px;
+            }
+            .sub-title{
+                a{
+                    margin-left: 5px;
+                }
+            }
+            form{
+                margin-top: 35px;
+                .bx--grid{
+                    padding: 0;
+                }
+            }
+            .privacy-policy-text{
+                margin-top: 10px;
+                font-size: 14px;
+                color: #868686;
+            }
+            .password-input{
+                div{
+                    [data-invalid]{
+                        button{
+                            top: 25px;
+                        }
+                    }
+                }
+            }
+        }
+        .app-footer{
+            text-align: center;
+            height: 40px;
+            line-height: 40px;
+        }
+    }
+    .app-logo{
+        font-weight: bold;
+    }
+    .login-type{
+       .bx--btn--ghost{
+           padding-left: 0;
+           text-align: left;
+           display: flex;
+           justify-content: flex-start;
+           svg{               
+                height: 1rem;
+                width: 1rem;
+                margin-right: 10px;
+           }
+       } 
+    }
+}
