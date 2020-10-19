@@ -147,7 +147,7 @@ const Login = (props) => {
                                       <center><p className="seprator-box">Or</p></center>
                                        <div className="google-button">
                                         <GoogleLogin
-                                                clientId="336242337843-k3q6sqsp4eimarulj7e4nd3g3j5prpvp.apps.googleusercontent.com"
+                                                clientId="336242337843-o0st76legn2s61e7296i8llpofu50ta9.apps.googleusercontent.com"
                                                 buttonText="Login"
                                                 onSuccess={responseGoogle}
                                                 onFailure={responseGoogle}
