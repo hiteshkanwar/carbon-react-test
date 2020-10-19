@@ -142,8 +142,9 @@ const Login = (props) => {
                                             </Row>
                                         </Grid>
                                     </FluidForm>
-                                    <Column sm={12} md={9} lg={9}>
-                                      <p>Or</p>
+                                     <Row className="justify-content-center">
+                                    <Column sm={12} md={12} lg={12}>
+                                      <center><p className="seprator-box">Or</p></center>
                                        <div className="google-button">
                                         <GoogleLogin
                                                 clientId="336242337843-k3q6sqsp4eimarulj7e4nd3g3j5prpvp.apps.googleusercontent.com"
@@ -154,6 +155,7 @@ const Login = (props) => {
                                               />
                                           </div>
                                        </Column>
+                                        </Row>
 
                                              
                             </Form>
