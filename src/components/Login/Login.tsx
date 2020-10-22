@@ -1,4 +1,3 @@
-// This component holds the login screen
 import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 
@@ -26,26 +25,45 @@ import {
 } from 'carbon-components-react';
 import './Login.scss';
 import GoogleLogin from 'react-google-login';
-import  { history } from '../../App.js';
+import  { history } from '../../App';
 
 
 
+type LoginFormState = {
+  email: string;
+  password: string;
+  error: any;
+};
 
-const Login = (props) => {
+type Props = {
+  success: boolean;
+  loginUser: (email, password) => void;
+};
 
-    const [state, setState] = useState({});
 
-    const inputValidation = async() => {
-        var emailError = await validate.email(state.email);
-        var passwordError = await validate.inputField(state.password, 'Password', 8, 16);
-        var isInputValidation;
-        if(emailError || passwordError){
-            isInputValidation = true;
-            setState({
-                ...state,
-                emailError,
-                passwordError,
-            })
+const Login: React.FC<Props> = (props) => {
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+
+   const inputValidation = async() => {
+        let emailError = await validate.email(email);
+        let passwordError = await validate.inputField(password, 'Password', 8, 16);
+
+        let isInputValidation;
+         if (emailError){
+           isInputValidation = true;
+            setError(
+                "Email or password is wrong"
+            )
+        }
+        if (passwordError){
+           isInputValidation = true;
+            setError(
+                passwordError
+            )
         }
         return isInputValidation;
     }
@@ -54,25 +72,17 @@ const Login = (props) => {
         var validate = await inputValidation();
         if(validate){return null}
         e.preventDefault();
-        props.loginUser(state)
+        props.loginUser(email, password)
     }
 
-    const responseGoogle = (response) => {
-      console.log(response);
-      if (response.tokenObj){
-        sessionStorage.setItem('user',JSON.stringify(response.tokenObj))
-        history.push('/dashboard');
-      } 
-
-    }
-    return(
+	return(
         <>
-            <Grid className='login-wrapper'>
+          <Grid className='login-wrapper'>
                 <Row>
                     <Column sm={12} md={3} lg={3} className='sidebar-header'>
                         <SidebarScreen/>
                     </Column>
-                    <Column sm={12} md={9} lg={9}>
+                     <Column sm={12} md={9} lg={9}>
                         <div className='form-wrapper login'>
                             <h4 className='app-logo'>Strobes</h4>
                             <h2 className='page-title'>Login</h2>
@@ -80,8 +90,8 @@ const Login = (props) => {
                                 Don't have an accout?
                                 <Link to='/register'>Register Now</Link>
                             </p>
-                            { props.success == false &&
-                             <div>
+                           { (props.success == false || error != "")&&
+                              <div>
                                 <InlineNotification
                                   kind="error"
                                   iconDescription="describes the close button"
@@ -89,7 +99,8 @@ const Login = (props) => {
                                   title=""
                                 />
                               </div>
-                              }
+                            }
+                              
                             <Form>
                                 
                                     <FluidForm>
@@ -97,34 +108,27 @@ const Login = (props) => {
                                             <Row> 
                                                 <Column>
                                                     <TextInput
-                                                        invalid={state.emailError}
-                                                        labelText='Email'
-                                                        placeholder='Type your email'
-                                                        className='some-class'
-                                                        invalidText={state.emailError}
-                                                        onChange={(e)=>setState({
-                                                            ...state,
-                                                            emailError: false,
-                                                            email: e.target.value
-                                                        })}
+                                                       labelText='Email'
+                                                       placeholder='Type your email'
+                                                       className='some-class'
+                                                       onChange={(e)=>setEmail(
+                                                          e.target.value
+                                                        )}
                                                     />
                                                 </Column>
                                             </Row>
                                             <Row>
                                                 <Column className='password-input'>
                                                     <TextInput.PasswordInput
-                                                        invalid={state.passwordError}
-                                                        invalidText={state.passwordError}
                                                         helperText="Optional helper text"
                                                         hidePasswordLabel="Hide password"
                                                         labelText="Password Confirmation"
                                                         placeholder="Type In"
                                                         showPasswordLabel="Show password"
-                                                        onChange={(e)=>setState({
-                                                            ...state,
-                                                            passwordError: false,
-                                                            password: e.target.value
-                                                        })}
+                                                        onChange={(e)=>setPassword(
+                                                          e.target.value
+                                                        )}
+                                                       
                                                     />
                                                 </Column>
                                             </Row>
@@ -144,29 +148,22 @@ const Login = (props) => {
                                     </FluidForm>
                                      <Row className="justify-content-center">
                                     <Column sm={12} md={12} lg={12}>
-                                      <center><p className="seprator-box">Or</p></center>
                                        <div className="google-button">
-                                        <GoogleLogin
-                                                clientId="336242337843-o0st76legn2s61e7296i8llpofu50ta9.apps.googleusercontent.com"
-                                                buttonText="Login"
-                                                onSuccess={responseGoogle}
-                                                onFailure={responseGoogle}
-                                                cookiePolicy={'single_host_origin'}
-                                              />
+                                    
                                           </div>
                                        </Column>
                                         </Row>
-
                                              
                             </Form>
                         </div>
                         <AppFooter/>
                     </Column>
-                </Row>
-            </Grid>
-        </>
+                 </Row>
+          </Grid>
+         </>
     )
 }
+
 
 const mapStateToProps = state => {
   return {

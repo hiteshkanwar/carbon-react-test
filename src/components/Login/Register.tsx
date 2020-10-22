@@ -1,4 +1,3 @@
-// This component holds the register screen
 import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 
@@ -25,48 +24,80 @@ import './Login.scss';
 
 
 
-const Register = (props) => {
-    const [state, setState] = useState({});
+type RegisterFormState = {
+  firstName: string
+  lastName: string
+  companyName: string
+  email: string;
+  password: string;
+  error: any;
+  submit: boolean;
+};
 
-    const inputValidation = async() => {
-        var firstNameError = await validate.inputField(state.firstName, 'First name');
-        var lastNameError = await validate.inputField(state.lastName, 'Last Name');
-        var companyNameError = await validate.inputField(state.companyName, 'Company name');
-        var emailError = await validate.email(state.email);
-        var passwordError = await validate.inputField(state.password, 'Password', 8, 16);
-        var confirmPasswordError;
-        if(state.password !== state.confirmPassword){
-            confirmPasswordError = "Confirm password didn't match";
+type Props = {
+  success: boolean;
+  registerUser: (email, password) => void;
+};
+
+
+const InvalidFirstNameProps = {
+  className: 'some-class',
+  id: 'test4',
+  labelText: 'FirstName',
+  invalid: true,
+  invalidText:
+    'First Name can not be blank.',
+};
+
+const Register = (props: any) => {
+
+
+   const [firstName, setFirstName] = useState("");
+   const [lastName, setLastName] = useState("");
+   const [companyName, setCompanyName] = useState("");
+   const [email, setEmail] = useState("");
+   const [password, setPassword] = useState("");
+   const [passwordConfirmation, setPasswordConfirmation] = useState("");
+   const [error, setError] = useState("");
+   const [submit, setSubmit] = useState(false)
+
+
+
+	 const inputValidation = async() => {
+        let emailError = await validate.email(email);
+        let passwordError = await validate.inputField(password, 'Password', 8, 16);
+
+        let isInputValidation;
+         if (emailError){
+           isInputValidation = true;
+            setError(
+                "Email or password is wrong"
+            )
         }
-        var isInputValidation;
-        if(
-            firstNameError || 
-            lastNameError || 
-            companyNameError || 
-            emailError || 
-            passwordError ||
-            confirmPasswordError
-        ){
-            isInputValidation = true;
-            setState({
-                ...state,
-                firstNameError,
-                lastNameError,
-                companyNameError,
-                emailError,
-                passwordError,
-                confirmPasswordError
-            })
+        if (passwordError){
+           isInputValidation = true;
+            setError(
+                passwordError
+            )
         }
-        return isInputValidation;
+        if (firstName == "" || lastName == "" || companyName == "" || emailError =="" || password =="" || passwordConfirmation =="")
+        {
+           setSubmit(true)
+           return false
+        }
+        return submit;
     }
 
-    const onSubmit = async(e) => {
+  
+
+     const onSubmit = async(e) => {
         var validate = await inputValidation();
         if(validate){return null}
         e.preventDefault();
-        props.registerUser(state)
-    } 
+        props.registerUser(email, password)
+    }
+
+    console.log(submit)
 
 
     return(
@@ -100,57 +131,52 @@ const Register = (props) => {
                                         <Row>
                                             <Column sm={12} md={4}>
                                                 <TextInput
-                                                    invalid={state.firstNameError}
-                                                    invalidText={state.firstNameError}
+                                                    invalid={submit=== true && firstName ==""}
+                                                    invalidText="This can not be blank."
                                                     labelText='First Name'
                                                     placeholder='Type In'
                                                     className='some-class'
-                                                    onChange={(e)=>setState({
-                                                        ...state,
-                                                        firstNameError: false,
-                                                        firstName: e.target.value
-                                                    })}
+                                                    onChange={(e)=>setFirstName(
+                                                      e.target.value
+                                                    )}
                                                 />
                                             </Column>
                                             <Column sm={12} md={4}>
                                                 <TextInput
-                                                    invalid={state.lastNameError}
-                                                    invalidText={state.lastNameError}
+                                                    invalid={submit=== true && lastName ==""}
+                                                    invalidText="This can not be blank."
                                                     labelText='Last Name'
                                                     placeholder='Type In'
-                                                    onChange={(e)=>setState({
-                                                      ...state,
-                                                      lastNameError: false,
-                                                      lastName: e.target.value
-                                                    })}
+                                                    onChange={(e)=>setLastName(
+                                                      e.target.value
+                                                    )}
                                                 />
                                             </Column>
                                         </Row>
                                         <Row className='mrt-15'>
                                             <Column sm={12} md={4}>
                                                 <TextInput
-                                                    invalid={state.companyNameError}
-                                                    invalidText={state.companyNameError}
+
+                                                   invalid={submit=== true && companyName ==""}
+                                                   invalidText="This can not be blank."
+                           
                                                     labelText='Company'
                                                     placeholder='Type In'
-                                                    onChange={(e)=>setState({
-                                                      ...state,
-                                                      companyNameError: false,
-                                                      companyName: e.target.value
-                                                    })}
+                                                    onChange={(e)=>setLastName(
+                                                      e.target.value
+                                                    )}
+                                              
                                                 />
                                             </Column>
                                             <Column sm={12} md={4}>
                                                 <TextInput
-                                                    invalid={state.emailError}
-                                                    invalidText={state.emailError}
+                                                    invalid={submit=== true && email ==""}
+                                                    invalidText="This can not be blank."
                                                     labelText='Email'
                                                     placeholder='me@gmail.com'
-                                                    onChange={(e)=>setState({
-                                                      ...state,
-                                                      emailError: false,
-                                                      email: e.target.value
-                                                    })}
+                                                    onChange={(e)=>setEmail(
+                                                      e.target.value
+                                                    )}
                                                 />
                                              
                                             </Column>
@@ -158,40 +184,43 @@ const Register = (props) => {
                                         <Row className='mrt-15'>
                                             <Column sm={12} md={4} className='password-input'>
                                                 <TextInput.PasswordInput
-                                                    invalid={state.passwordError}
-                                                    invalidText={state.passwordError}
-                                                    helperText="Optional helper text"
-                                                    hidePasswordLabel="Hide password"
-                                                    labelText="Password Confirmation"
-                                                    placeholder="Type In"
-                                                    showPasswordLabel="Show password"
-                                                    onChange={(e)=>setState({
-                                                        ...state,
-                                                        passwordError: false,
-                                                        password: e.target.value
-                                                    })}
-                                                />
-                                            </Column>
-                                            <Column sm={12} md={4} className='password-input'>
-                                                <TextInput.PasswordInput
-                                                    invalid={state.confirmPasswordError}
-                                                    invalidText={state.confirmPasswordError}
+                                                    invalid={submit=== true && password ==""}
+                                                    invalidText="This can not be blank."
                                                     helperText="Optional helper text"
                                                     hidePasswordLabel="Hide password"
                                                     labelText="Password"
                                                     placeholder="Type In"
                                                     showPasswordLabel="Show password"
-                                                    onChange={(e)=>setState({
-                                                        ...state,
-                                                        confirmPasswordError: false,
-                                                        confirmPassword: e.target.value
-                                                    })}
+                                                    onChange={(e)=>setPassword(
+                                                      e.target.value
+                                                    )}
+                                                />
+                                            </Column>
+                                            <Column sm={12} md={4} className='password-input'>
+                                                <TextInput.PasswordInput
+                                                    invalid={submit=== true && passwordConfirmation ==""}
+                                                    invalidText="This can not be blank."
+                                                    hidePasswordLabel="Hide password"
+                                                    labelText="Password Confirmation"
+                                                    placeholder="Type In"
+                                                    showPasswordLabel="Show password"
+                                                    onChange={(e)=>setPasswordConfirmation(
+                                                      e.target.value
+                                                    )}
+                                                    // onChange={(e)=>setState({
+                                                    //     ...state,
+                                                    //     confirmPasswordError: false,
+                                                    //     confirmPassword: e.target.value
+                                                    // })}
                                                 />
                                             </Column>
                                         </Row>
                                         <Row className='mrt-15'>
                                             <Column sm={8} md={8}>
-                                                <Button onClick={(e) => onSubmit(e)} className='btn-fluid' renderIcon={ArrowRight32}>Continue to your free account</Button>
+                                                <Button 
+                                                onClick={(e) => onSubmit(e)} 
+                                                className='btn-fluid' 
+                                                renderIcon={ArrowRight32}>Continue to your free account</Button>
                                             </Column>
                                         </Row>
                                     </Grid>
@@ -207,6 +236,8 @@ const Register = (props) => {
     )
 }
 
+
+
 const mapStateToProps = state => {
   return {
     success: state.auth.success
@@ -218,4 +249,3 @@ const mapDispatchToProps = {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register)
-

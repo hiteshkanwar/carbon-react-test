@@ -26,8 +26,10 @@ import {
 } from '@carbon/icons-react';
 
 import userIcon from '../../Assets/user-icon.png';
-import  { history } from '../../App.js';
+import  { history } from '../../App';
 import './Mainframe.scss';
+
+
 
 const AppHeader = (props) => {
 

@@ -1,9 +1,9 @@
 import axios from 'axios';
 import * as actionTypes from './actionTypes'
 import { BASE_PATH } from '../constant/app_constant';
-import  { history } from '../App.js';
+import  { history } from '../App';
 
-export  const registerUserSuccess = (response) => {
+export  const registerUserSuccess = (response:any) => {
   return {
       type: actionTypes.REGISTER_USER_SUCCESS,
       payload: {
@@ -12,7 +12,7 @@ export  const registerUserSuccess = (response) => {
   }
 }
 
-export  const registerUserError = (error) => {
+export  const registerUserError = (error:any) => {
   return {
       type: actionTypes.REGISTER_USER_ERROR,
       payload: error
@@ -20,9 +20,9 @@ export  const registerUserError = (error) => {
 }
 
 
-export const registerUser = (data) => {
+export const registerUser = (email:string, password:string) => {
   return (dispatch) => {
-     axios.post(`${BASE_PATH}/sign_up`, { "user": { "email": data.email, "password"  : data.password } })
+     axios.post(`${BASE_PATH}/sign_up`, { "user": { "email": email, "password"  : password } })
         .then(function (response) {
           sessionStorage.setItem('user',JSON.stringify(response.data.data.user))
           dispatch(registerUserSuccess(response.data))
@@ -35,7 +35,7 @@ export const registerUser = (data) => {
 }
 
 
-export  const loginUserSuccess = (response) => {
+export  const loginUserSuccess = (response:any) => {
   return {
       type: actionTypes.LOGIN_USER_SUCCESS,
       payload: {
@@ -44,7 +44,7 @@ export  const loginUserSuccess = (response) => {
   }
 }
 
-export  const loginUserError = (error) => {
+export  const loginUserError = (error:any) => {
   return {
       type: actionTypes.LOGIN_USER_ERROR,
       payload: error
@@ -52,9 +52,9 @@ export  const loginUserError = (error) => {
 }
 
 
-export const loginUser = (data) => {
+export const loginUser = (email:string, password:string) => {
   return (dispatch) => {
-    axios.post(`${BASE_PATH}/sign_in`, { "user": { "email": data.email, "password"  : data.password } })
+    axios.post(`${BASE_PATH}/sign_in`, { "user": { "email": email, "password"  : password } })
       .then(function (response) {
         sessionStorage.setItem('user',JSON.stringify(response.data.data.user))
         dispatch(loginUserSuccess(response.data))
